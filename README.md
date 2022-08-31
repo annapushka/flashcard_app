@@ -22,7 +22,7 @@ With the application you can learn English words. There is a dictionary and trai
 <img src="src/assets/img/readme4.jpg" alt="card-result" width="250px"/></p>
 
 
-## Authors
+## Author
 
 Pushkareva Anna<br>
 [@AnnaPushka](https://github.com/annapushka)
