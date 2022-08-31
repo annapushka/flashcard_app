@@ -17,7 +17,7 @@ function WordList(props) {
     function handleAdd() { setAdding(true) }
 
     function add() {
-        fetch('http://itgirlschool.justmakeit.ru/api/words/add', {
+        fetch('/api/words/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
