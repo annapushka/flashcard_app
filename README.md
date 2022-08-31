@@ -10,7 +10,7 @@ With the application you can learn English words. There is a dictionary and trai
 <p><img src="src/assets/img/HTML.png" alt="HTML" width="100rem"/>
 <img src="src/assets/img/CSS.png" alt="CSS" width="100rem"/>
 <img src="src/assets/img/JS.png" alt="JS" width="100rem"/>
-<img src="src/assets/img/react.png" alt="react" width="100rem"/>
+<img src="src/assets/img/react.png" alt="react" width="95rem"/>
 <img src="src/assets/img/sass.png" alt="sass" width="100rem"/>
 </p>
 
