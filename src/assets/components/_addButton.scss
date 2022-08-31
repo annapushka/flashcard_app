@@ -1,0 +1,17 @@
+@import "../styles/general/colors";
+@import "../styles/general/fonts";
+@import "../styles/general/sizes";
+
+.addButton {
+    background-color: $buttonPink;
+    color: $txWhite;
+    border-radius: $borderRadius;
+    padding: $paddingTx;
+    border: none;
+    min-width: 6rem;
+    margin-top: 0.5rem;
+    &:hover{
+        transform: scale(1.05);
+        background-color: black;
+    }
+}

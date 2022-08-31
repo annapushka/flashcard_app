@@ -1,0 +1,201 @@
+@import "../components/addButton";
+@import "../components/deleteButton";
+@import "../components/editButton";
+@import "../components/saveButton";
+@import "../components/cancelButton";
+@import "../components/header";
+@import "../components/searchBox";
+@import "../components/wordCard";
+@import "../components/wordList";
+@import "../components/cardSlider";
+@import "../components/noMath";
+@import "../components/loading";
+@import "../components/_error.scss";
+@import "./general/colors";
+@import "./general/fonts";
+@import "./general/sizes";
+@import "./general/mixin";
+@import url(https://fonts.googleapis.com/css?family=Roboto:100,100italic,300,300italic,regular,italic,500,500italic,700,700italic,900,900italic);
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+@media screen and (max-width: 479px) {
+    .header {
+        font-size: 1.1em;
+
+        &__logo,
+        &__nav-img {
+            height: 2.2rem;
+            padding: 0;
+            margin: 0;
+        }
+
+        &__nav-text {
+            display: none;
+        }
+    }
+
+    .header__nav {
+        padding-left: 3%;
+    }
+
+    .word {
+        width: 90vw;
+
+        &__data {
+            flex-wrap: wrap;
+        }
+
+        &__text {
+            font-size: 1.5em;
+        }
+
+        &__russian {
+            font-size: 1em;
+        }
+
+        &__check {
+            font-size: 1em;
+        }
+
+        &__tags {
+            font-size: 1em;
+        }
+    }
+
+    .searchBox {
+        justify-content: flex-end;
+        flex-wrap: wrap;
+
+        &__input {
+            max-width: 100px;
+            padding: 0.6rem;
+            margin: 0 0.5rem;
+            font-size: 0.9em;
+        }
+    }
+
+    .card-slider {
+        gap: 0rem;
+        padding-top: 6rem;
+
+        &__btn {
+            z-index: 2;
+            background-color: transparent;
+
+            &:hover {
+                background-color: transparent;
+            }
+        }
+    }
+
+    .learned-words__num_pink {
+        font-size: 1.1em;
+    }
+
+    .noMatch {
+        height: 70vh;
+        gap: 2rem;
+
+        &__img {
+            max-width: 7em;
+        }
+
+        &__text {
+            font-size: 1rem;
+            text-align: center;
+            padding: 2%;
+        }
+    }
+}
+
+@media screen and (min-width: 480px) and (max-width: 768px) {
+    .header {
+        font-size: 1.5em;
+
+        &__nav-text {
+            display: none;
+        }
+    }
+
+    .searchBox {
+        justify-content: flex-end;
+
+        &__input {
+            max-width: 120px;
+            padding: 0.65rem;
+            margin: 0 0.5rem;
+        }
+    }
+
+    .card-slider {
+        padding-top: 6rem;
+    }
+
+    .word {
+        width: 80vw;
+
+        &__data {
+            flex-wrap: wrap;
+        }
+
+        &__text {
+            font-size: 1.4em;
+        }
+
+        &__russian {
+            font-size: 1.4em;
+        }
+
+        &__check {
+            font-size: 1.4em;
+        }
+
+        &__tags {
+            font-size: 1.4em;
+        }
+    }
+
+    .list {
+        margin-top: 1rem;
+    }
+
+    .noMatch {
+        height: 70vh;
+        gap: 2rem;
+
+        &__img {
+            max-width: 7em;
+        }
+
+        &__text {
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 2%;
+        }
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1279px) {
+    .word {
+        width: 70vw;
+    }
+
+    .header__nav-text_say {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .word {
+        width: 50vw;
+    }
+
+}

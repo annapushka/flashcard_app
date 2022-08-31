@@ -1,0 +1,10 @@
+@mixin inputLight {
+    outline: none;
+    border: none;
+    border-radius: $borderRadius;
+    max-width: 150px;
+    padding: 0.6rem;
+    margin: 0 1rem;
+    color: $txDarkBlue;
+    font-size: 1.1em;
+}

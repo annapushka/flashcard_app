@@ -1,0 +1,48 @@
+@import "../styles/general/colors";
+@import "../styles/general/fonts";
+@import "../styles/general/sizes";
+
+.header {
+    position: fixed;
+    z-index: 2;
+    display: flex;
+    background-color: $backPink;
+    justify-content: space-between;
+    font-size: 1.5em;
+    align-content: center;
+    width: 100%;
+
+    a {
+        text-decoration: none;
+        color: black;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+            color: $txWhite;
+        }
+    }
+
+    &__logo,
+    &__nav-img {
+        height: 3rem;
+    }
+
+    &__nav-img {
+        padding-left: 2rem;
+    }
+
+    &__nav {
+        display: flex;
+        gap: 1.8rem;
+        padding: 0.5rem 0 0.5rem 12%;
+    }
+
+    &__nav-text_say {
+        font-size: 0.7em;
+        line-height: 140%;
+        padding: 1% 0;
+        color: $txWhite;
+        text-align: center;
+    }
+}

@@ -1,0 +1,18 @@
+.noMatch {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    &__img {
+        max-width: 10rem;
+    }
+    &__text {
+        font-size: 1.5rem;
+    }
+    &__title {
+        font-size: 3em;
+        color: $buttonPink;
+    }
+}

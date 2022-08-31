@@ -1,0 +1,82 @@
+@import "../styles/general/colors";
+@import "../styles/general/fonts";
+@import "../styles/general/sizes";
+
+.word{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $backBlue;
+    border-radius: $borderRadius;
+    width: 90vw;
+    margin: 0.1rem;
+    opacity: 0.8;
+    &:hover{
+        transform: scale(1.05);
+        box-shadow: 0px 4px 16px rgba(78, 55, 55, 0.15);
+        opacity: 1;
+    }
+    &__data{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+        padding: $paddingTx;
+        width: 100%;
+        justify-content: space-between;
+    }
+    &__text{
+        font-size: $h1;
+    }
+    &__russian{
+        font-size: $h2;
+        color: $txWhite;
+        background-color: black;
+        padding: $paddingTx;
+        border-radius: $borderRadius;
+    }
+    &__check{
+        font-size: $h2;
+        color: $txWhite;
+        background-color: $backPink;
+        padding: $paddingTx;
+        border-radius: $borderRadius;
+        border: none;
+        cursor: pointer;
+        &:focus {
+            outline: 0;
+            transform: scale(1.05);
+            box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+        }
+    }
+    &__tags{
+        color: $txDarkBlue;
+        font-size: 1.2em;
+    }
+    &__control{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.4rem;
+        margin: 0.5rem;
+    }
+    &__input {
+        @include inputLight;
+        margin: 0;
+        min-width: 6rem;
+        width: 10vw;
+    }
+    .notValid {
+        box-shadow: inset 0 0 10px #a9196b;
+    }
+    .verificationError {
+        position: absolute;
+        top: -10%;
+        left: 2%;
+        color: #a9196b;
+        background-color: rgba(255, 255, 255, 0.565);
+        border-radius: 1rem;
+        padding: 2%;
+    }
+}

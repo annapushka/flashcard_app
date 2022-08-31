@@ -1,0 +1,18 @@
+@import "../styles/general/colors";
+@import "../styles/general/fonts";
+@import "../styles/general/sizes";
+
+.cancelButton {
+    background-color: rgb(173, 173, 173);
+    color: black;
+    border-radius: $borderRadius;
+    padding: 0.3rem;
+    border: none;
+    min-width: 6rem;
+    &:hover{
+        background-color: $backPink;
+    }
+    &__img{
+        width: 1.5rem;
+    }
+}

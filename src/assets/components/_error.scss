@@ -1,0 +1,15 @@
+.error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    height: 100vh;
+
+    &__img {
+        width: 10rem;
+    }
+
+    &__text {
+        font-size: 1.5rem;
+    }
+}

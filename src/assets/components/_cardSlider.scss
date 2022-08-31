@@ -1,0 +1,66 @@
+@import "../styles/general/colors";
+@import "../styles/general/fonts";
+@import "../styles/general/sizes";
+
+.card-slider{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10%;
+    gap: 1rem;
+
+    &__btn {
+        border: none;
+        height: 3rem;
+        width: 3rem;
+        border-radius: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $buttonPink;
+        color: $txWhite;
+        &:hover{
+            transform: scale(1.05);
+            background-color: $buttonBlue;
+            opacity: 0.8;
+        }
+
+        img {
+            max-width: 80%;
+        }
+    }
+
+    .word {
+        animation: 0.5s show linear;
+        opacity: 1;
+        min-width: 200px;
+        max-width: 20vw;
+        height: 20rem;
+        align-items: stretch;
+        padding: 1rem;
+        @keyframes show {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        &__control {
+            display: none;
+        }
+        &__data {
+            flex-direction: column;
+        }
+        &__text {
+            padding: 3rem 0;
+        }
+    }
+}
+
+.learned-words {
+    text-align: center;
+    padding: 5%;
+    font-size: 1.2em;
+    &__num_pink {
+        font-size: 1.5em;
+        color: $buttonPink;
+        font-weight: 600;
+    }
+}

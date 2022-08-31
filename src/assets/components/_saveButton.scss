@@ -1,0 +1,19 @@
+@import "../styles/general/colors";
+@import "../styles/general/fonts";
+@import "../styles/general/sizes";
+
+.saveButton {
+    background-color: $backWhite;
+    color: $txWhite;
+    border-radius: $borderRadius;
+    padding: 0.3rem;
+    border: 0.3px solid rgba(128, 128, 128, 0.452);
+    min-width: 6rem;
+    &:hover{
+        border: none;
+        background-color: $backBlue;
+    }
+    &__img{
+        width: 1.5rem;
+    }
+}

@@ -1,0 +1,16 @@
+.list-box {
+    padding-top: 6rem;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    .list__control{
+        opacity: 0.8;
+        padding-bottom: 1rem;
+    }
+}
+
+._new {
+    background-color: $backPink;
+}
