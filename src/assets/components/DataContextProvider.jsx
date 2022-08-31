@@ -9,7 +9,7 @@ function DataContextProvider(props) {
     useEffect(() => { loadData() }, []);
 
     const loadData = () => {
-        fetch('/api/words')
+        fetch('http://itgirlschool.justmakeit.ru/api/words')
             .then((result) => {
                 if (result.ok) {
                     return result.json();
@@ -28,7 +28,7 @@ function DataContextProvider(props) {
 
     const handleDelete = (e) => {
         const id = e.target.id;
-        fetch(`/api/words/${id}/delete`, {
+        fetch(`http://itgirlschool.justmakeit.ru/api/words/${id}/delete`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
