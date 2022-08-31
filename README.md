@@ -17,9 +17,9 @@ With the application you can learn English words. There is a dictionary and trai
 ## Result
 
 <!-- [Сlick me](https://annapushka.github.io/bookshop/) -->
-<p><img src="src/assets/img/readme1.jpg" alt="card-result"/>
-<img src="src/assets/img/readme3.jpg" alt="card-result"/>
-<img src="src/assets/img/readme4.jpg" alt="card-result"/></p>
+<p><img src="src/assets/img/readme1.jpg" alt="card-result" width="50px"/>
+<img src="src/assets/img/readme3.jpg" alt="card-result" width="50px"/>
+<img src="src/assets/img/readme4.jpg" alt="card-result" width="50px"/></p>
 
 
 ## Authors
