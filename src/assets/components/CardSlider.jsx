@@ -18,7 +18,7 @@ function CardSlider(props) {
         setLearnedWords(prevState => (prevState < data.length - 1) ? prevState + 1 : data.length);
     }
     const handleCountBack = () => {
-        setCount(prevState => (prevState > 0) ? prevState - 1 : 0);
+        setCount(prevState => (prevState > 0) ? prevState - 1 : data.length - 1);
     }
 
     let userResult;
