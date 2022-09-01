@@ -9,7 +9,7 @@ function DataContextProvider(props) {
     useEffect(() => { loadData() }, []);
 
     const loadData = () => {
-        fetch('http://itgirlschool.justmakeit.ru/api/words')
+        fetch('https://cors-everywhere.herokuapp.com/http://itgirlschool.justmakeit.ru/api/words')
             .then((result) => {
                 if (result.ok) {
                     return result.json();
@@ -28,7 +28,7 @@ function DataContextProvider(props) {
 
     const handleDelete = (e) => {
         const id = e.target.id;
-        fetch(`http://itgirlschool.justmakeit.ru/api/words/${id}/delete`, {
+        fetch(`https://cors-everywhere.herokuapp.com/http://itgirlschool.justmakeit.ru/api/words/${id}/delete`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'

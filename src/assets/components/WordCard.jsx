@@ -85,7 +85,7 @@ function WordCard(props) {
 
 
     function update(id) {
-        fetch(`http://itgirlschool.justmakeit.ru/api/words/${id}/update`, {
+        fetch(`https://cors-everywhere.herokuapp.com/http://itgirlschool.justmakeit.ru/api/words/${id}/update`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
