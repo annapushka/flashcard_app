@@ -1,66 +1,45 @@
 import AddButton from "./AddButton";
 import WordCard from "./WordCard";
-import React, { useState, useContext } from "react";
-import { DataContext } from "../components/DataContextProvider";
+import React, { useState } from "react";
+import { observer, inject } from "mobx-react";
 import CancelButton from "./CancelButton";
 import SaveButtonNew from "./SaveButtonNew";
 import Error from "./Error";
 
-function WordList(props) {
+function WordList({ wordStore }) {
 
-    const { data, loadData } = useContext(DataContext);
-    const cardArray = [...data];
     const [isAdding, setAdding] = useState(false);
     const [newWord, setNewWord] = useState([]);
-    const [error, setErorr] = useState('');
 
-    function handleAdd() { setAdding(true) }
+    const handleAdd = () => setAdding(true);
 
-    function add() {
-        fetch('https://cors-everywhere.herokuapp.com/http://itgirlschool.justmakeit.ru/api/words/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(newWord)
-        })
-            .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Something went wrong ...');
-                }
-            })
-            .then(() => loadData())
-            .catch(error => {
-                setErorr(error);
-            });
+    const addNewWord = () => {
+        wordStore.add(newWord);
+        setNewWord("");
         setAdding(false);
-    }
+    };
 
-    function handleChangeData(e) {
+    const handleChangeData = (e) => {
         const name = e.target.name;
         const info = e.target.value;
         setNewWord({ ...newWord, [name]: info });
     }
 
-    const undoHandler = () => {
-        setAdding(false);
-    }
+    const undoHandler = () => setAdding(false);
 
     return (
         <>
-            {error ? (
+            {wordStore.error ? (
                 <Error />
             ) : (
                 < div className="list-box" >
                     <div className="list">
                         {
-                            cardArray.filter(word => {
-                                if (props.saerchTearm === '') { return word }
-                                else if (word.english.toLowerCase().includes(props.saerchTearm.toLowerCase())) { return word }
+                            wordStore.words.filter(word => {
+                                if (wordStore.saerchTearm === '') { return word }
+                                else if (word.english.toLowerCase().includes(wordStore.saerchTearm.toLowerCase())) { return word }
                             }).map((word) =>
-                                <WordCard words={cardArray} key={word.id} {...word} />
+                                <WordCard key={word.id} {...word} />
                             )
                         }
                     </div>
@@ -75,7 +54,7 @@ function WordList(props) {
                                         <input className='word__input' name='tags' onChange={handleChangeData} />
                                     </div>
                                     <div className="word__control">
-                                        <SaveButtonNew add={add} />
+                                        <SaveButtonNew addNewWord={addNewWord} />
                                         <CancelButton undoHandler={undoHandler} />
                                     </div>
                                 </div>
@@ -90,4 +69,4 @@ function WordList(props) {
     );
 }
 
-export default WordList;
+export default inject(["wordStore"])(observer(WordList));

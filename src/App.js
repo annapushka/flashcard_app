@@ -5,41 +5,34 @@ import Header from './assets/components/Header';
 import CardSlider from './assets/components/CardSlider';
 import NoMatch from './assets/components/NoMatch';
 import Error from './assets/components/Error';
-import { useState, useContext} from 'react';
+import React, { useEffect } from 'react';
 import {
   HashRouter as Router,
   Routes,
   Route,
   Link
 } from "react-router-dom";
-import { DataContext } from "../src/assets/components/DataContextProvider";
+import { observer, inject } from "mobx-react";
 import Loading from './assets/components/Loading';
 
 
 
-function App(props) {
+function App({ wordStore }) {
 
-  const { isLoaded, error } = useContext(DataContext);
-
-  //search
-  const [saerchTearm, setSearchTerm] = useState('');
-
-  function saerchHandler (e) {
-    setSearchTerm(e.target.value);
-  }
+  useEffect(() => { wordStore.loadData() }, []);
 
   return (
       <Router>
-        {error ? (
+        {wordStore.error ? (
           <Error/>
         ) : (
           <div className="App">
-          {isLoaded ? (
+          {wordStore.isLoaded ? (
             <>
-              <Header saerchHandler={saerchHandler} value={saerchTearm}></Header>
+              <Header/>
               <Routes>
                 <Route exact path='/game' element={<CardSlider/>} />
-                <Route exact path='/' element={<WordList saerchTearm={saerchTearm}/>} />
+                <Route exact path='/' element={<WordList/>} />
                 <Route path="*" element={<NoMatch/>} />
               </Routes>
             </>
@@ -52,4 +45,4 @@ function App(props) {
     );
 }
 
-export default App;
+export default inject(["wordStore"])(observer(App));

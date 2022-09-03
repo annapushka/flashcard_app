@@ -23,7 +23,7 @@ function Header(props) {
                 </Link>
                 <div className="header__nav-text header__nav-text_say">"With the possible exception of the equator, everything begins somewhere"<br /> - C.S. Lewis</div>
             </div>
-            <SearchBox saerchHandler={props.saerchHandler} value={props.saerchTearm}></SearchBox>
+            <SearchBox />
         </div>
     );
 }

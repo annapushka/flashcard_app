@@ -1,18 +1,15 @@
-import React, { useState, createRef, useEffect, useContext } from 'react';
+import React, { useState, createRef, useEffect } from 'react';
 import CancelButton from "./CancelButton";
 import CheckButton from './CheckButton';
 import DeleteButton from "./DeleteButton";
 import EditButton from "./EditButton";
 import SaveButton from "./SaveButton";
 import Error from "./Error";
-import { DataContext } from "./DataContextProvider";
+import { observer, inject } from "mobx-react";
 
 let classNames = require('classnames');
 
-function WordCard(props) {
-
-    const { handleDelete, loadData } = useContext(DataContext);
-    const [error, setErorr] = useState('');
+function WordCard({ wordStore }, props) {
 
     //translation check
     const [pressed, setPressed] = useState(false);
@@ -41,71 +38,42 @@ function WordCard(props) {
     //disabled indicator
     let isDisabled = "";
 
-
     //translation check handler
-    const handleChange = () => {
-        setPressed(prevState => !prevState);
-    }
+    const handleChange = () => setPressed(prevState => !prevState);
+
     // changing word information handler
-    const handleEdit = () => {
-        setChanged(prevState => !prevState);
-    }
+    const handleEdit = () => setChanged(prevState => !prevState);
+
     //word information change handler
-    function handleChangeData(e) {
+    const handleChangeData = (e) => {
         const name = e.target.name;
         const info = e.target.value;
-        if (isValid(info)) {
+        if (wordStore.isValid(info)) {
             setValid(true);
-            // e.target.className = 'word__input';
             setData({ ...data, [name]: info });
         } else {
-            // e.target.className = 'word__input notValid';
             setValid(false);
             setData({ ...data, [name]: info });
         }
     }
     //word general information change handler
-    function saveNewHandler(e) {
+    const saveNewHandler = (e) => {
         e.preventDefault();
         if (isVerified) {
-            update(data.id);
+            wordStore.update(data.id, data);
+            setChanged(true);
         } else {
             isDisabled = "disabled";
             setChanged(prevState => !prevState);
         }
     }
     //reset changes
-    function undoHandler() {
-        setChangedInput(false);
+    const undoHandler = () => setChangedInput(false);
+
+    const handleDelete = (e) => {
+        const id = e.target.id;
+        wordStore.remove(id);
     }
-
-
-    //checking the entered new information about the word
-    function isValid(element) { return (element.length > 0) ? true : false }
-
-
-    function update(id) {
-        fetch(`https://cors-everywhere.herokuapp.com/http://itgirlschool.justmakeit.ru/api/words/${id}/update`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(data)
-        })
-            .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Something went wrong ...');
-                }
-            })
-            .then(() => loadData())
-            .catch(error => {
-                setErorr(error);
-            });
-        setChanged(true);
-    }
-
 
     //focus on check button
     const ref = createRef();
@@ -114,7 +82,7 @@ function WordCard(props) {
 
     return (
         <>
-            {error ? (
+            {wordStore.error ? (
                 <Error />
             ) : (
                 <div className="word" >
@@ -157,4 +125,4 @@ function WordCard(props) {
     );
 }
 
-export default WordCard;
+export default inject(["wordStore"])(observer(WordCard));
