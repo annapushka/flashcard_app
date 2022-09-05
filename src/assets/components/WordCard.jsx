@@ -6,10 +6,15 @@ import EditButton from "./EditButton";
 import SaveButton from "./SaveButton";
 import Error from "./Error";
 import { observer, inject } from "mobx-react";
+import { toJS } from 'mobx';
 
 let classNames = require('classnames');
 
-function WordCard({ wordStore }, props) {
+function WordCard({ wordStore, id }) {
+
+    const words = toJS(wordStore.words);
+    const index = words.map(object => object.id).indexOf(id);
+    const word = words[index];
 
     //translation check
     const [pressed, setPressed] = useState(false);
@@ -17,11 +22,11 @@ function WordCard({ wordStore }, props) {
     const [isChanged, setChanged] = useState(false);
     //word information states
     const [data, setData] = useState({
-        id: props.id,
-        english: props.english,
-        transcription: props.transcription,
-        russian: props.russian,
-        tags: props.tags
+        id: word.id,
+        english: word.english,
+        transcription: word.transcription,
+        russian: word.russian,
+        tags: word.tags
     });
     const [isVerified, setValid] = useState(true);
     //will the information about the word be changed
@@ -89,7 +94,7 @@ function WordCard({ wordStore }, props) {
                     {isChanged ? (
                         <>
                             {!isVerified && <div className="verificationError">Please fill in all fields correctly...</div>}
-                            <div className="word__data" id={props.id}>
+                            <div className="word__data" id={word.id}>
                                 <input className={inputClass} value={data.english} name='english' onChange={handleChangeData} />
                                 <input className={inputClass} value={data.transcription} name='transcription' onChange={handleChangeData} />
                                 <input className={inputClass} value={data.russian} name='russian' onChange={handleChangeData} />
@@ -103,18 +108,18 @@ function WordCard({ wordStore }, props) {
                     ) : (
                         <>
                             <div className="word__data">
-                                <span className="word__text">{props.english}</span>
-                                <span className="word__transcription">{props.transcription}</span>
+                                <span className="word__text">{word.english}</span>
+                                <span className="word__transcription">{word.transcription}</span>
                                 {pressed ? (
-                                    <span onClick={handleChange} className="word__russian">{props.russian}</span>
+                                    <span onClick={handleChange} className="word__russian">{word.russian}</span>
                                 ) : (
                                     <CheckButton ref={ref} handleChange={handleChange} />
                                 )}
-                                <span className="word__tags">{props.tags}</span>
+                                <span className="word__tags">{word.tags}</span>
                             </div>
                             <div className="word__control">
                                 <EditButton handleEdit={handleEdit} />
-                                <DeleteButton handleDelete={handleDelete} id={props.id} />
+                                <DeleteButton handleDelete={handleDelete} id={word.id} />
                             </div>
                         </>
                     )

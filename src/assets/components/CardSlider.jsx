@@ -3,10 +3,13 @@ import React, { } from 'react';
 import Back from "../img/arrow_back_icon.png";
 import Forward from "../img/arrow_forward_icon.png";
 import { observer, inject } from "mobx-react";
-import WordStore from "../../store/wordStore";
+import { toJS } from 'mobx';
+
 
 function CardSlider({ wordStore }) {
-    const { id, ...itemData } = wordStore.words[wordStore.count];
+
+    const words = toJS(wordStore.words);
+    const word = words[wordStore.count];
 
     let userResult;
     if (wordStore.learnedWords === wordStore.words.length) {
@@ -25,7 +28,7 @@ function CardSlider({ wordStore }) {
                 <button className="card-slider__btn" onClick={() => wordStore.decrement()}>
                     <img src={Back} alt="" className="card-slider__icon" />
                 </button>
-                <WordCard key={id} {...itemData}></WordCard>
+                <WordCard key={word.id} {...word}></WordCard>
                 <button className="card-slider__btn" onClick={() => wordStore.increment()}>
                     <img src={Forward} alt="" className="card-slider__icon" />
                 </button>

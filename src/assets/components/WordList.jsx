@@ -5,25 +5,56 @@ import { observer, inject } from "mobx-react";
 import CancelButton from "./CancelButton";
 import SaveButtonNew from "./SaveButtonNew";
 import Error from "./Error";
+import { toJS } from 'mobx';
+
+let classNames = require('classnames');
 
 function WordList({ wordStore }) {
 
+    const words = toJS(wordStore.words);
+
     const [isAdding, setAdding] = useState(false);
     const [newWord, setNewWord] = useState([]);
+    const [isVerified, setValid] = useState(true);
+
+    //verification indicator
+    let inputClass = classNames({
+        'word__input': true,
+        'notValid': !isVerified,
+    });
+
+    //disabled indicator
+    let isDisabled = "disabled";
 
     const handleAdd = () => setAdding(true);
 
-    const addNewWord = () => {
-        wordStore.add(newWord);
-        setNewWord("");
-        setAdding(false);
+    const addNewWord = (e) => {
+        e.preventDefault();
+        if (isVerified) {
+            isDisabled = "";
+            wordStore.add(newWord);
+            setNewWord("");
+            setAdding(false);
+            setValid(false);
+        } else {
+            isDisabled = "disabled";
+        }
     };
 
     const handleChangeData = (e) => {
         const name = e.target.name;
         const info = e.target.value;
-        setNewWord({ ...newWord, [name]: info });
+        if (wordStore.isValid(info)) {
+            setValid(true);
+            setNewWord({ ...newWord, [name]: info });
+        } else {
+            setValid(false);
+            setNewWord({ ...newWord, [name]: info });
+        }
     }
+
+
+
 
     const undoHandler = () => setAdding(false);
 
@@ -35,7 +66,7 @@ function WordList({ wordStore }) {
                 < div className="list-box" >
                     <div className="list">
                         {
-                            wordStore.words.filter(word => {
+                            words.filter((word, index) => {
                                 if (wordStore.saerchTearm === '') { return word }
                                 else if (word.english.toLowerCase().includes(wordStore.saerchTearm.toLowerCase())) { return word }
                             }).map((word) =>
@@ -48,13 +79,13 @@ function WordList({ wordStore }) {
                             isAdding ? (
                                 <div className="word _new">
                                     <div className="word__data">
-                                        <input className='word__input' name='english' onChange={handleChangeData} />
-                                        <input className='word__input' name='transcription' onChange={handleChangeData} />
-                                        <input className='word__input' name='russian' onChange={handleChangeData} />
-                                        <input className='word__input' name='tags' onChange={handleChangeData} />
+                                        <input className={inputClass} name='english' onChange={handleChangeData} placeholder='english' />
+                                        <input className={inputClass} name='transcription' onChange={handleChangeData} placeholder='transcription' />
+                                        <input className={inputClass} name='russian' onChange={handleChangeData} placeholder='russian' />
+                                        <input className={inputClass} name='tags' onChange={handleChangeData} placeholder='tags' />
                                     </div>
                                     <div className="word__control">
-                                        <SaveButtonNew addNewWord={addNewWord} />
+                                        <SaveButtonNew disabled={isDisabled} addNewWord={addNewWord} />
                                         <CancelButton undoHandler={undoHandler} />
                                     </div>
                                 </div>

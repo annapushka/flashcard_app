@@ -1,4 +1,5 @@
 import { makeAutoObservable,  runInAction } from "mobx";
+const url = 'https://cors-everywhere.herokuapp.com/http://itgirlschool.justmakeit.ru';
 
 export default class WordStore {
 
@@ -11,7 +12,7 @@ export default class WordStore {
     }
 
     loadData = () => {
-        fetch('https://cors-everywhere.herokuapp.com/http://itgirlschool.justmakeit.ru/api/words')
+        fetch(url + '/api/words')
             .then((result) => {
                 if (result.ok) {
                     return result.json();
@@ -31,7 +32,7 @@ export default class WordStore {
     }
 
     add = (newWord) => {
-        fetch('https://cors-everywhere.herokuapp.com/http://itgirlschool.justmakeit.ru/api/words/add', {
+        fetch(url + '/api/words/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -53,7 +54,7 @@ export default class WordStore {
 
 
     remove = (id) => {
-        fetch(`https://cors-everywhere.herokuapp.com/http://itgirlschool.justmakeit.ru/api/words/${id}/delete`, {
+        fetch(url + `/api/words/${id}/delete`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -74,7 +75,7 @@ export default class WordStore {
     }
 
     update = (id, data) => {
-        fetch(`https://cors-everywhere.herokuapp.com/http://itgirlschool.justmakeit.ru/api/words/${id}/update`, {
+        fetch(url + `/api/words/${id}/update`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -106,7 +107,7 @@ export default class WordStore {
     learnedWords = 0;
 
     increment = () => {
-        this.count = this.count < this.words.length ? this.count + 1 : 0;
+        this.count = this.count < this.words.length - 1 ? this.count + 1 : 0;
         this.learnedWords = this.learnedWords < this.words.length  ? this.learnedWords + 1 : this.words.length;
     }
 
