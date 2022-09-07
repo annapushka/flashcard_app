@@ -1,18 +1,20 @@
-import React, { useState, createRef, useEffect, useContext } from 'react';
+import React, { useState, createRef, useEffect } from 'react';
 import CancelButton from "./CancelButton";
 import CheckButton from './CheckButton';
 import DeleteButton from "./DeleteButton";
 import EditButton from "./EditButton";
 import SaveButton from "./SaveButton";
 import Error from "./Error";
-import { DataContext } from "./DataContextProvider";
+import { observer, inject } from "mobx-react";
+import { toJS } from 'mobx';
 
 let classNames = require('classnames');
 
-function WordCard(props) {
+function WordCard({ wordStore, id }) {
 
-    const { handleDelete, loadData } = useContext(DataContext);
-    const [error, setErorr] = useState('');
+    const words = toJS(wordStore.words);
+    const index = words.map(object => object.id).indexOf(id);
+    const word = words[index];
 
     //translation check
     const [pressed, setPressed] = useState(false);
@@ -20,11 +22,11 @@ function WordCard(props) {
     const [isChanged, setChanged] = useState(false);
     //word information states
     const [data, setData] = useState({
-        id: props.id,
-        english: props.english,
-        transcription: props.transcription,
-        russian: props.russian,
-        tags: props.tags
+        id: word.id,
+        english: word.english,
+        transcription: word.transcription,
+        russian: word.russian,
+        tags: word.tags
     });
     const [isVerified, setValid] = useState(true);
     //will the information about the word be changed
@@ -41,71 +43,42 @@ function WordCard(props) {
     //disabled indicator
     let isDisabled = "";
 
-
     //translation check handler
-    const handleChange = () => {
-        setPressed(prevState => !prevState);
-    }
+    const handleChange = () => setPressed(prevState => !prevState);
+
     // changing word information handler
-    const handleEdit = () => {
-        setChanged(prevState => !prevState);
-    }
+    const handleEdit = () => setChanged(prevState => !prevState);
+
     //word information change handler
-    function handleChangeData(e) {
+    const handleChangeData = (e) => {
         const name = e.target.name;
         const info = e.target.value;
-        if (isValid(info)) {
+        if (wordStore.isValid(info)) {
             setValid(true);
-            // e.target.className = 'word__input';
             setData({ ...data, [name]: info });
         } else {
-            // e.target.className = 'word__input notValid';
             setValid(false);
             setData({ ...data, [name]: info });
         }
     }
     //word general information change handler
-    function saveNewHandler(e) {
+    const saveNewHandler = (e) => {
         e.preventDefault();
         if (isVerified) {
-            update(data.id);
+            wordStore.update(data.id, data);
+            setChanged(true);
         } else {
             isDisabled = "disabled";
             setChanged(prevState => !prevState);
         }
     }
     //reset changes
-    function undoHandler() {
-        setChangedInput(false);
+    const undoHandler = () => setChangedInput(false);
+
+    const handleDelete = (e) => {
+        const id = e.target.id;
+        wordStore.remove(id);
     }
-
-
-    //checking the entered new information about the word
-    function isValid(element) { return (element.length > 0) ? true : false }
-
-
-    function update(id) {
-        fetch(`https://cors-everywhere.herokuapp.com/http://itgirlschool.justmakeit.ru/api/words/${id}/update`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(data)
-        })
-            .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Something went wrong ...');
-                }
-            })
-            .then(() => loadData())
-            .catch(error => {
-                setErorr(error);
-            });
-        setChanged(true);
-    }
-
 
     //focus on check button
     const ref = createRef();
@@ -114,14 +87,14 @@ function WordCard(props) {
 
     return (
         <>
-            {error ? (
+            {wordStore.error ? (
                 <Error />
             ) : (
                 <div className="word" >
                     {isChanged ? (
                         <>
                             {!isVerified && <div className="verificationError">Please fill in all fields correctly...</div>}
-                            <div className="word__data" id={props.id}>
+                            <div className="word__data" id={word.id}>
                                 <input className={inputClass} value={data.english} name='english' onChange={handleChangeData} />
                                 <input className={inputClass} value={data.transcription} name='transcription' onChange={handleChangeData} />
                                 <input className={inputClass} value={data.russian} name='russian' onChange={handleChangeData} />
@@ -135,18 +108,18 @@ function WordCard(props) {
                     ) : (
                         <>
                             <div className="word__data">
-                                <span className="word__text">{props.english}</span>
-                                <span className="word__transcription">{props.transcription}</span>
+                                <span className="word__text">{word.english}</span>
+                                <span className="word__transcription">{word.transcription}</span>
                                 {pressed ? (
-                                    <span onClick={handleChange} className="word__russian">{props.russian}</span>
+                                    <span onClick={handleChange} className="word__russian">{word.russian}</span>
                                 ) : (
                                     <CheckButton ref={ref} handleChange={handleChange} />
                                 )}
-                                <span className="word__tags">{props.tags}</span>
+                                <span className="word__tags">{word.tags}</span>
                             </div>
                             <div className="word__control">
                                 <EditButton handleEdit={handleEdit} />
-                                <DeleteButton handleDelete={handleDelete} id={props.id} />
+                                <DeleteButton handleDelete={handleDelete} id={word.id} />
                             </div>
                         </>
                     )
@@ -157,4 +130,4 @@ function WordCard(props) {
     );
 }
 
-export default WordCard;
+export default inject(["wordStore"])(observer(WordCard));

@@ -1,66 +1,76 @@
 import AddButton from "./AddButton";
 import WordCard from "./WordCard";
-import React, { useState, useContext } from "react";
-import { DataContext } from "../components/DataContextProvider";
+import React, { useState } from "react";
+import { observer, inject } from "mobx-react";
 import CancelButton from "./CancelButton";
 import SaveButtonNew from "./SaveButtonNew";
 import Error from "./Error";
+import { toJS } from 'mobx';
 
-function WordList(props) {
+let classNames = require('classnames');
 
-    const { data, loadData } = useContext(DataContext);
-    const cardArray = [...data];
+function WordList({ wordStore }) {
+
+    const words = toJS(wordStore.words);
+
     const [isAdding, setAdding] = useState(false);
     const [newWord, setNewWord] = useState([]);
-    const [error, setErorr] = useState('');
+    const [isVerified, setValid] = useState(true);
 
-    function handleAdd() { setAdding(true) }
+    //verification indicator
+    let inputClass = classNames({
+        'word__input': true,
+        'notValid': !isVerified,
+    });
 
-    function add() {
-        fetch('https://cors-everywhere.herokuapp.com/http://itgirlschool.justmakeit.ru/api/words/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(newWord)
-        })
-            .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Something went wrong ...');
-                }
-            })
-            .then(() => loadData())
-            .catch(error => {
-                setErorr(error);
-            });
-        setAdding(false);
-    }
+    //disabled indicator
+    let isDisabled = "disabled";
 
-    function handleChangeData(e) {
+    const handleAdd = () => setAdding(true);
+
+    const addNewWord = (e) => {
+        e.preventDefault();
+        if (isVerified) {
+            isDisabled = "";
+            wordStore.add(newWord);
+            setNewWord("");
+            setAdding(false);
+            setValid(false);
+        } else {
+            isDisabled = "disabled";
+        }
+    };
+
+    const handleChangeData = (e) => {
         const name = e.target.name;
         const info = e.target.value;
-        setNewWord({ ...newWord, [name]: info });
+        if (wordStore.isValid(info)) {
+            setValid(true);
+            setNewWord({ ...newWord, [name]: info });
+        } else {
+            setValid(false);
+            setNewWord({ ...newWord, [name]: info });
+        }
     }
 
-    const undoHandler = () => {
-        setAdding(false);
-    }
+
+
+
+    const undoHandler = () => setAdding(false);
 
     return (
         <>
-            {error ? (
+            {wordStore.error ? (
                 <Error />
             ) : (
                 < div className="list-box" >
                     <div className="list">
                         {
-                            cardArray.filter(word => {
-                                if (props.saerchTearm === '') { return word }
-                                else if (word.english.toLowerCase().includes(props.saerchTearm.toLowerCase())) { return word }
+                            words.filter((word, index) => {
+                                if (wordStore.saerchTearm === '') { return word }
+                                else if (word.english.toLowerCase().includes(wordStore.saerchTearm.toLowerCase())) { return word }
                             }).map((word) =>
-                                <WordCard words={cardArray} key={word.id} {...word} />
+                                <WordCard key={word.id} {...word} />
                             )
                         }
                     </div>
@@ -69,13 +79,13 @@ function WordList(props) {
                             isAdding ? (
                                 <div className="word _new">
                                     <div className="word__data">
-                                        <input className='word__input' name='english' onChange={handleChangeData} />
-                                        <input className='word__input' name='transcription' onChange={handleChangeData} />
-                                        <input className='word__input' name='russian' onChange={handleChangeData} />
-                                        <input className='word__input' name='tags' onChange={handleChangeData} />
+                                        <input className={inputClass} name='english' onChange={handleChangeData} placeholder='english' />
+                                        <input className={inputClass} name='transcription' onChange={handleChangeData} placeholder='transcription' />
+                                        <input className={inputClass} name='russian' onChange={handleChangeData} placeholder='russian' />
+                                        <input className={inputClass} name='tags' onChange={handleChangeData} placeholder='tags' />
                                     </div>
                                     <div className="word__control">
-                                        <SaveButtonNew add={add} />
+                                        <SaveButtonNew disabled={isDisabled} addNewWord={addNewWord} />
                                         <CancelButton undoHandler={undoHandler} />
                                     </div>
                                 </div>
@@ -90,4 +100,4 @@ function WordList(props) {
     );
 }
 
-export default WordList;
+export default inject(["wordStore"])(observer(WordList));
