@@ -24,15 +24,15 @@ function WordList({ wordStore }) {
     });
 
     //disabled indicator
-    let isDisabled = "disabled";
+    let isDisabled = "";
 
     const handleAdd = () => setAdding(true);
 
     const addNewWord = (e) => {
         e.preventDefault();
         if (isVerified) {
-            isDisabled = "";
             wordStore.add(newWord);
+            console.log(newWord);
             setNewWord("");
             setAdding(false);
             setValid(false);
