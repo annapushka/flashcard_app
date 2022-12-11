@@ -1,5 +1,5 @@
 import { makeAutoObservable,  runInAction } from "mobx";
-const url = 'http://itgirlschool.justmakeit.ru';
+const url = 'https://thingproxy.freeboard.io/fetch/http://itgirlschool.justmakeit.ru';
 
 export default class WordStore {
 
