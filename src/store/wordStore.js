@@ -1,5 +1,5 @@
 import { makeAutoObservable,  runInAction } from "mobx";
-const url = 'https://cors-everywhere.herokuapp.com/http://itgirlschool.justmakeit.ru';
+const url = 'http://itgirlschool.justmakeit.ru';
 
 export default class WordStore {
 
