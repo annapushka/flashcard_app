@@ -16,7 +16,7 @@ With the application you can learn English words. There is a dictionary and trai
 
 ## Result
 
-[Сlick me](https://annapushka.github.io/flashcard_app/)
+<!-- [Сlick me](https://annapushka.github.io/flashcard_app/) -->
 <p><img src="src/assets/img/readme1.jpg" alt="card-result" width="250px"/>
 <img src="src/assets/img/readme3.jpg" alt="card-result" width="250px"/>
 <img src="src/assets/img/readme4.jpg" alt="card-result" width="250px"/></p>
