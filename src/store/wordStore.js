@@ -1,5 +1,5 @@
 import { makeAutoObservable,  runInAction } from "mobx";
-const url = 'https://thingproxy.freeboard.io/fetch/http://itgirlschool.justmakeit.ru';
+const url = 'https://6396034b90ac47c6807aa35e.mockapi.io';
 
 export default class WordStore {
 
@@ -12,7 +12,7 @@ export default class WordStore {
     }
 
     loadData = () => {
-        fetch(url + '/api/words')
+        fetch(url + '/words')
             .then((result) => {
                 if (result.ok) {
                     return result.json();
@@ -32,7 +32,7 @@ export default class WordStore {
     }
 
     add = (newWord) => {
-        fetch(url + '/api/words/add', {
+        fetch(url + '/words', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -54,8 +54,8 @@ export default class WordStore {
 
 
     remove = (id) => {
-        fetch(url + `/api/words/${id}/delete`, {
-            method: 'POST',
+        fetch(url + `/words/${id}`, {
+            method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             }
@@ -75,8 +75,8 @@ export default class WordStore {
     }
 
     update = (id, data) => {
-        fetch(url + `/api/words/${id}/update`, {
-            method: 'POST',
+        fetch(url + `/words/${id}`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },
